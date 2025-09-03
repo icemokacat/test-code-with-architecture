@@ -8,12 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import com.example.demo.model.UserStatus;
 
 // @ExtendWith 는 DataJpaTest 에 포함되어 있음
 @DataJpaTest(showSql = true)
-@Sql("/sql/user-repository-test-data.sql")
+//@Sql("/sql/user-repository-test-data.sql")
+@SqlGroup({
+	@Sql("/sql/user-repository-test-data.sql"),
+	@Sql(value = "/sql/delete-all-data.sql",executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+})
 class UserRepositoryTest {
 
 	@Autowired
